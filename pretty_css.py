@@ -73,17 +73,3 @@ racunaje_duzina(tokeni)
 s = ispis_tokena(tokeni)
 zapis(s)
 print("Sve ok")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
