@@ -65,7 +65,6 @@ def zapis(s):
 
 #-------------------------------------------------------------------------------
 
-#redovi = ["#div1{", "	background: #eda;"]
 redovi = ucitavanje().split("\n")
 tokeni = []
 
@@ -74,7 +73,7 @@ racunaje_duzina(tokeni)
 s = ispis_tokena(tokeni)
 zapis(s)
 print("Sve ok")
-#print(s)
+
 
 
 
