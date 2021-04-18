@@ -1,4 +1,5 @@
 # ------------------------------------------------------------------------------
+#
 # Sublime-ov plugin koji koristim za markdown, ne uvlači tagove i vraća
 # rezultat koji je malo previše 'zvaničan' (što znači da posle ionako
 # moram da skidam nepotrebne informacije koje plugin doda i naravno,
