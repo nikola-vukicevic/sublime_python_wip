@@ -8,16 +8,18 @@
 # naslove (h1, h2, h3, h4) i ulančane liste, pa se čini da je
 # ovakav, 'idiosinkratični' DIY plugin pravo rešenje za takvu situaciju. :)
 #
-# Sintaksa:
+# Sintaksa (donekle se poklapa sa zvaničnom specifikacijom):
 # 
-#     #1 - h1
-#     #2 - h1
-#     #3 - h1
-#     #4 - h1
-#     *  - ul
-#     \t - li
-#
-# Napomena: za "<ul>" mora ručno da se doda zatvarajući tag.
+#     #    - Dodaje "<h1>" i "</h1>" oko reda koji počinje sa "#" i briše tarabe
+#     ##   - Dodaje "<h2>" i "</h2>" oko reda koji počinje sa "##" i briše tarabe
+#     ###  - Dodaje "<h3>" i "</h3>" oko reda koji počinje sa "###" i briše tarabe
+#     #### - Dodaje "<h4>" i "</h4>" oko reda koji počinje sa "####" i briše tarabe
+#            (h5 i h6 mi, za sada, ne trebaju, ali, prisutan je kod
+#             i za njih, pod komentarom; ako se stavi pet ili
+#             šest zvezdica, skripta će to preppoznati kao h4)
+#     *    - Menja zvezdicu u "<ul>"
+#     **   - Menja dve zvezdice u "</ul>"
+#     \t   - Dodaje "<li>" i "</li>" oko reda koji počinje sa "\t"
 #
 # Copyright (C) 2021. Nikola Vukićević
 #
@@ -30,57 +32,55 @@ class idiosync_markdown(sublime_plugin.TextCommand):
 	
 	def run(self, edit):
 
-		r = sublime.Region(0, self.view.size() - 1)
-
+		r = sublime.Region(0, self.view.size())
 		s = self.view.substr(r)
-		
 		s = self.idiosyncParse(s)
-		s = self.formatiranje(s)
 			
 		self.view.replace(edit, r, s)
-
-	def formatiranje(self, s):
-		s = s.replace("</h1>", "</h1>\n")
-		s = s.replace("</h2>", "</h2>\n")
-		s = s.replace("</h3>", "</h3>\n")
-		s = s.replace("</h4>", "</h4>\n")
-		s = s.replace("</ul>", "</ul>\n")
-		s = s.replace("<li>",  "\t<li>")
-
-		s = s.replace("<p>", "<p>\n\t")
-		s = s.replace("</p>", "\n</p>\n")
-
-		return s
 
 	def idiosyncParse(self, s):
 		redovi = s.split("\n")
 		tokeni = []
 		s      = ""
-		
+
 		for r in redovi:
 			if not r:
 				continue
-			if r.startswith("#1"):
-				r = r + " "
-				tokeni.append(["<h1>", r[ 2 : len(r) ].strip(), "</h1>"])
+			
+			# Za sada mi ne trebaju h5 i h6, ali, nikad se ne zna ....
+
+			# if r.startswith("######"):
+			# 	tokeni.append(["<h6>", r.lstrip('#').strip(), "</h6>\n"])
+			# 	continue
+			# if r.startswith("#####"):
+			# 	tokeni.append(["<h5>", r.lstrip('#').strip(), "</h5>\n"])
+			# 	continue
+			
+			if r.startswith("####"):
+				tokeni.append(["<h4>", r.lstrip('#').strip(), "</h4>\n"])
 				continue
-			if r.startswith("#2"):
-				tokeni.append(["<h2>", r[ 2 : len(r) ].strip(), "</h2>"])
+			if r.startswith("###"):
+				tokeni.append(["<h3>", r.lstrip('#').strip(), "</h3>\n"])
 				continue
-			if r.startswith("#3"):
-				tokeni.append(["<h3>", r[ 2 : len(r) ].strip(), "</h3>"])
+			if r.startswith("##"):
+				tokeni.append(["<h2>", r.lstrip('#').strip(), "</h2>\n"])
 				continue
-			if r.startswith("#4"):
-				tokeni.append(["<h4>", r[ 2 : len(r) ].strip(), "</h4>"])
+			if r.startswith("#"):
+				tokeni.append(["<h1>", r.lstrip('#').strip(), "</h1>\n"])
+				continue
+			if r.startswith("**"):
+				tokeni.append(["</ul>\n", "",        ""])
 				continue
 			if r.startswith("*"):
 				tokeni.append(["<ul>", "",        ""])
 				continue
 			if r.startswith("\t"):
-				tokeni.append(["<li>", r.strip(), "</li>"])
+				tokeni.append(["\t<li>", r.strip(), "</li>"])
 				continue
 
-			tokeni.append(["<p>", r.strip(), "</p>"])
+			# Ako red nije ništa 'posebno', onda je <p> :)
+
+			tokeni.append(["<p>\n\t", r.strip(), "\n</p>\n"])
 
 		for t in tokeni:
 			s = s + t[0] + t[1] + t[2] + "\n"
