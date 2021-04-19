@@ -5,8 +5,9 @@
 # da sredim uvlačenje.
 #
 # U člancima koje pišem, u najvećoj meri  koristim samo paragrafe, 
-# naslove (h1, h2, h3, h4) i ulančane liste, pa se čini da je
-# ovakav, 'idiosinkratični' DIY plugin pravo rešenje za takvu situaciju. :)
+# naslove (h1, h2, h3, h4) i ulančane liste (sve ostalo lako rešavam
+# preko snipeta), pa se čini da je ovakav, 'idiosinkratični' DIY plugin
+# pravo stvar za takvu situaciju. :)
 #
 # Sintaksa (donekle se poklapa sa zvaničnom specifikacijom):
 # 
@@ -20,8 +21,9 @@
 #     *    - Menja zvezdicu u "<ul>"
 #     **   - Menja dve zvezdice u "</ul>"
 #     \t   - Dodaje "<li>" i "</li>" oko reda koji počinje sa "\t"
-#     ~~   - Komentar - početak / završetak bloka koji će biti direktno
+#     ~~   - Početak / završetak bloka koji će biti direktno
 #            preslikan (znakovi moraju biti na početku reda)
+#     !!   - Komentar - red koji počinje sa "!!" biće zanemaren
 #
 # Copyright (C) 2021. Nikola Vukićević
 #
@@ -71,14 +73,15 @@ class idiosync_markdown(sublime_plugin.TextCommand):
 		return s
 
 	def ucitavanje_tokena(self, r, tokeni):
+		if r.startswith("!!"):
+			return
 		# Za sada mi ne trebaju h5 i h6, ali, ako zatreba ....
-
-			# if r.startswith("######"):
-			# 	tokeni.append(["<h6>", r.lstrip('#').strip(), "</h6>\n"])
-			# 	continue
-			# if r.startswith("#####"):
-			# 	tokeni.append(["<h5>", r.lstrip('#').strip(), "</h5>\n"])
-			# 	continue
+		# if r.startswith("######"):
+		# 	tokeni.append(["<h6>", r.lstrip('#').strip(), "</h6>\n"])
+		# 	continue
+		# if r.startswith("#####"):
+		# 	tokeni.append(["<h5>", r.lstrip('#').strip(), "</h5>\n"])
+		# 	continue
 		if r.startswith("####"):
 			tokeni.append(["<h4>", r.lstrip('#').strip(), "</h4>\n"])
 			return
@@ -105,10 +108,10 @@ class idiosync_markdown(sublime_plugin.TextCommand):
 		tokeni.append(["<p>\n\t", r.strip(), "\n</p>\n"])
 
 	# --------------------------------------------------
-	# Automatksa numeracija slika u tekstu
-	# Za ovo koristim posebne snipete, što verovatno
-	# ne bi bilo zanimljivo svima, pa se zato metoda
-	# ne poziva po default-u
+	# Automatska numeracija slika u tekstu. Za ovo
+	# koristim i posebne snipete, a sve zajedno to
+	# verovatno ne bi bilo zanimljivo svima, pa se
+	# zato metoda ne poziva po default-u
 	# --------------------------------------------------
 
 	def zamena_tokena_slike(self, s):
