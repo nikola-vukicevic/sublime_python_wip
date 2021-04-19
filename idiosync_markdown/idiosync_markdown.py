@@ -1,5 +1,4 @@
 # ------------------------------------------------------------------------------
-#
 # Sublime-ov plugin koji koristim za markdown, ne uvlači tagove i vraća
 # rezultat koji je malo previše 'zvaničan' (što znači da posle ionako
 # moram da skidam nepotrebne informacije koje plugin doda i naravno,
@@ -57,6 +56,9 @@ class idiosync_markdown(sublime_plugin.TextCommand):
 			# 	tokeni.append(["<h5>", r.lstrip('#').strip(), "</h5>\n"])
 			# 	continue
 			
+			if r.startswith("!!"):
+				tokeni.append([r.lstrip('!'), "", ""])
+				continue
 			if r.startswith("####"):
 				tokeni.append(["<h4>", r.lstrip('#').strip(), "</h4>\n"])
 				continue
