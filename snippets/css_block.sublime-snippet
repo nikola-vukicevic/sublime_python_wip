@@ -1,0 +1,20 @@
+<snippet>
+	<content><![CDATA[
+width:       ${1:100px};
+height:      ${2:30px};
+background:  ${3:#0ae};
+color:       ${4:#000};
+font-family: ${5:OpenSans-Regular, Arial, sans-serif};
+font-weight: ${6:normal};
+font-size:   ${7:1em};
+margin:      ${8:0 0 0 0};
+padding:     ${9:0 0 0 0};
+/* ----- var ----- */
+/*
+font-family: var(--font_familija);
+font-weight: var(--font_debljina);
+*/
+]]></content>
+	<tabTrigger>cb</tabTrigger>
+	<scope>source.css</scope>
+</snippet>

@@ -1,0 +1,15 @@
+<snippet>
+	<content><![CDATA[
+width:           ${1:100vw};
+height:          ${2:100vh};
+display:         flex;
+flex-direction:  ${3:column};
+justify-content: ${4:flex-start};
+align-items:     ${5:stretch};
+flex-wrap:       wrap;
+]]>
+	</content>
+	
+	<tabTrigger>cfw</tabTrigger>
+	<scope>source.css</scope>
+</snippet>

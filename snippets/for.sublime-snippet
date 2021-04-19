@@ -1,0 +1,10 @@
+<snippet>
+	<content><![CDATA[
+for (i = 0; i < ${1:n}; i++) {
+	
+}
+]]>
+	</content>
+	
+	<tabTrigger>for</tabTrigger>
+</snippet>
