@@ -21,9 +21,9 @@
 #     *    - Menja zvezdicu u "<ul>"
 #     **   - Menja dve zvezdice u "</ul>"
 #     \t   - Dodaje "<li>" i "</li>" oko reda koji počinje sa "\t"
-#     ~~   - Početak / završetak bloka koji će biti direktno
-#            preslikan (znakovi moraju biti na početku reda)
-#     !!   - Komentar - red koji počinje sa "!!" biće zanemaren
+#     ``   - Početak HTML bloka (koji će biti direktno preslikan)
+#     ~~   - Završetak HTML bloka
+#     !!   - Komentar (red koji počinje sa "!!" biće zanemaren)
 #
 # Copyright (C) 2021. Nikola Vukićević
 #
@@ -41,7 +41,6 @@ class idiosync_markdown(sublime_plugin.TextCommand):
 		s = self.view.substr(r)
 		s = self.idiosyncParse(s)
 		#s = self.zamena_tokena_slike(s)
-			
 		self.view.replace(edit, r, s)
 
 	def idiosyncParse(self, s):
@@ -55,7 +54,7 @@ class idiosync_markdown(sublime_plugin.TextCommand):
 				continue
 			
 			if parse == True:
-				if r.startswith("~~"):
+				if r.startswith("``"):
 					parse = False
 					continue
 				self.ucitavanje_tokena(r, tokeni)
