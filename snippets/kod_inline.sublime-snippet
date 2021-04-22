@@ -1,0 +1,9 @@
+<snippet>
+	<content><![CDATA[
+<code class='kod_u_tekstu'>${1:kod}</code>${0}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>pre_inline</tabTrigger>
+	<!-- <scope>source.php</scope> -->
+</snippet>
+

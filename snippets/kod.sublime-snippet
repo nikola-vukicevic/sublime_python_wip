@@ -1,0 +1,20 @@
+<snippet>
+	<content><![CDATA[
+``
+<figure>
+	<pre class='iskljucena_selekcija'>
+		<code class='language-${1:text}'>
+${2:// KOD}
+		</code>
+	</pre>
+	<figcaption>
+		Slika ${3:#s#}. - ${4:Opis slike}.
+	</figcaption>
+</figure>
+~~
+${0}
+]]></content>
+	<!-- Optional: Set a tabTrigger to define how to trigger the snippet -->
+	<tabTrigger>pre_code</tabTrigger>
+	<!-- <scope>source.php</scope> -->
+</snippet>
